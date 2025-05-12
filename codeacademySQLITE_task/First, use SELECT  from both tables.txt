@@ -2,33 +2,20 @@ First, use SELECT * from both tables and use your knowledge of queries and aggre
 
 Q. What are the Top 25 schools (.edu domains)?
 ANs.
-SELECT email_domain, COUNT(*) AS user_count
-FROM users
-WHERE email_domain LIKE '%.edu'
-GROUP BY email_domain
-ORDER BY user_count DESC
-LIMIT 25;
+SELECT email_domain, COUNT(*) AS user_count FROM users WHERE email_domain LIKE '%.edu' GROUP BY email_domain ORDER BY user_count DESC LIMIT 25;
 
 Q. How many .edu learners are located in New York?
  ans. 50
-SELECT COUNT(*) AS edu_learners_in_new_york
-FROM users
-WHERE email_domain LIKE '%.edu'
-AND city = 'New York';
+SELECT COUNT(*) AS edu_learners_in_new_york FROM users WHERE email_domain LIKE '%.edu' AND city = 'New York';
 
 Que. The mobile_app column contains either mobile-user or NULL. How many of these Codecademy learners are using the mobile app?
-ans.  330
-SELECT COUNT(*) AS mobile_app_users
-FROM users
-WHERE mobile_app = 'mobile-user';
+ans. mobile_app_user
+      330
+SELECT COUNT(*) AS mobile_app_users FROM users WHERE mobile_app = 'mobile-user';
 
 Q.  using this function, query for the sign up counts for each hour.
 ans.
-SELECT strftime('%H', sign_up_at) AS hour,  
-COUNT(*) AS sign_up_count
-FROM users
-GROUP BY hour
-ORDER BY hour;
+SELECT strftime('%H', sign_up_at) AS hour, COUNT(*) AS sign_up_count FROM users GROUP BY hour ORDER BY hour;
 
 question . 4 Join the two tables using JOIN and then see what you can dig out of the data!
 
@@ -36,44 +23,35 @@ A). Do different schools (.edu domains) prefer different courses?
     
 answer.
 "Join the tables and focus on .edu domains"
-SELECT 
-email_domain,
+SELECT email_domain,
 AVG(CASE WHEN learn_cpp IS NOT NULL THEN 1 ELSE 0 END) AS cpp_interest,
 AVG(CASE WHEN learn_sql IS NOT NULL THEN 1 ELSE 0 END) AS sql_interest,
 AVG(CASE WHEN learn_html IS NOT NULL THEN 1 ELSE 0 END) AS html_interest,
 AVG(CASE WHEN learn_javascript IS NOT NULL THEN 1 ELSE 0 END) AS js_interest,
 AVG(CASE WHEN learn_java IS NOT NULL THEN 1 ELSE 0 END) AS java_interest
-FROM users
-JOIN progress ON users.user_id = progress.user_id
-WHERE email_domain LIKE "%.edu"
-GROUP BY email_domain
-ORDER BY email_domain;
+FROM users JOIN progress ON users.user_id = progress.user_id WHERE email_domain LIKE "%.edu" GROUP BY email_domain ORDER BY email_domain;
 
 question 4.B) What courses are the New Yorkers students taking?
   
-SELECT 
-'New York' AS city,
+SELECT  'New York' AS city,
 COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
 COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
 COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
 COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
 COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
-FROM users
-JOIN progress ON users.user_id = progress.user_id
-WHERE city = 'New York';
+FROM users JOIN progress ON users.user_id = progress.user_id WHERE city = 'New York';
 
 
 question 4.c)  What courses are the Chicago students taking?
 
 SELECT  city,
-COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
-COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
-COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
-COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
-COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
-FROM users
-JOIN progress ON users.user_id = progress.user_id
-WHERE city IN ('New York', 'Chicago')
-GROUP BY city;
+    COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
+    COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
+    COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
+    COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
+    COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
+FROM users JOIN progress ON users.user_id = progress.user_id WHERE city IN ('New York', 'Chicago') GROUP BY city;
+
+
 
 =====================================COMPLETED================================================
