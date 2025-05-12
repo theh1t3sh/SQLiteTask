@@ -11,7 +11,7 @@ SELECT COUNT(*) AS edu_learners_in_new_york FROM users WHERE email_domain LIKE '
 Que. The mobile_app column contains either mobile-user or NULL. How many of these Codecademy learners are using the mobile app?
 ans. mobile_app_user
      
-SELECT COUNT(*) AS mobile_app_users FROM users WHERE mobile_app IS NOT NULL;
+SELECT COUNT(*) AS mobile_app_users FROM users WHERE mobile_app = 'mobile-user';
 
 Q.  using this function, query for the sign up counts for each hour.
 ans.
@@ -39,19 +39,17 @@ AVG(learn_cpp) AS cpp_avg,
        AVG(learn_html) AS html_avg,
        AVG(learn_javascript) AS js_avg,
        AVG(learn_java) AS java_avg
-FROM users JOIN progress ON users.user_id = progress.user_id WHERE city = 'New York';
-
+FROM users JOIN progress ON users.user_id = progress.user_id WHERE postal LIKE 'NY%';
 
 question 4.c)  What courses are the Chicago students taking?
 
-SELECT  city,
-    COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
-    COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
-    COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
-    COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
-    COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
-FROM users JOIN progress ON users.user_id = progress.user_id WHERE city IN ('New York', 'Chicago') GROUP BY city;
-
+SELECT  u.city, 
+       COUNT(CASE WHEN p.learn_cpp = 'completed' THEN 1 END) AS cpp_count,
+       COUNT(CASE WHEN p.learn_sql = 'completed' THEN 1 END) AS sql_count,
+       COUNT(CASE WHEN p.learn_html = 'completed' THEN 1 END) AS html_count,
+       COUNT(CASE WHEN p.learn_javascript = 'completed' THEN 1 END) AS javascript_count,
+       COUNT(CASE WHEN p.learn_java = 'completed' THEN 1 END) AS java_count
+FROM users u JOIN progress p ON u.user_id = p.user_id WHERE LOWER(u.city) = 'chicago' GROUP BY u.city;
 
 
 =====================================COMPLETED================================================
