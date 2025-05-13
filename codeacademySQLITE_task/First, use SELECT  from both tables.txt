@@ -24,11 +24,11 @@ A). Do different schools (.edu domains) prefer different courses?
 answer.
 "Join the tables and focus on .edu domains"
 SELECT email_domain,
-AVG(learn_cpp) AS cpp_avg,
-       AVG(learn_sql) AS sql_avg,
-       AVG(learn_html) AS html_avg,
-       AVG(learn_javascript) AS js_avg,
-       AVG(learn_java) AS java_avg
+AVG(CASE WHEN learn_cpp IS NOT NULL THEN 1 ELSE 0 END) AS cpp_interest,
+AVG(CASE WHEN learn_sql IS NOT NULL THEN 1 ELSE 0 END) AS sql_interest,
+AVG(CASE WHEN learn_html IS NOT NULL THEN 1 ELSE 0 END) AS html_interest,
+AVG(CASE WHEN learn_javascript IS NOT NULL THEN 1 ELSE 0 END) AS js_interest,
+AVG(CASE WHEN learn_java IS NOT NULL THEN 1 ELSE 0 END) AS java_interest
 FROM users JOIN progress ON users.user_id = progress.user_id WHERE email_domain LIKE "%.edu" GROUP BY email_domain ORDER BY email_domain;
 
 question 4.B) What courses are the New Yorkers students taking?
