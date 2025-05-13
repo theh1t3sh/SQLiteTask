@@ -34,11 +34,11 @@ FROM users JOIN progress ON users.user_id = progress.user_id WHERE email_domain 
 question 4.B) What courses are the New Yorkers students taking?
   
 SELECT  'New York' AS city,
-AVG(learn_cpp) AS cpp_avg,
-       AVG(learn_sql) AS sql_avg,
-       AVG(learn_html) AS html_avg,
-       AVG(learn_javascript) AS js_avg,
-       AVG(learn_java) AS java_avg
+COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
+COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
+COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
+COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
+COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
 FROM users JOIN progress ON users.user_id = progress.user_id WHERE city = 'New York';
 
 question 4.c)  What courses are the Chicago students taking?
