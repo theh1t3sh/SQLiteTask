@@ -39,7 +39,7 @@ AVG(learn_cpp) AS cpp_avg,
        AVG(learn_html) AS html_avg,
        AVG(learn_javascript) AS js_avg,
        AVG(learn_java) AS java_avg
-FROM users JOIN progress ON users.user_id = progress.user_id WHERE postal LIKE 'NY%';
+FROM users JOIN progress ON users.user_id = progress.user_id WHERE city = 'New York';
 
 question 4.c)  What courses are the Chicago students taking?
 
