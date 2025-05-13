@@ -23,33 +23,32 @@ A). Do different schools (.edu domains) prefer different courses?
     
 answer.
 "Join the tables and focus on .edu domains"
-SELECT email_domain,
-AVG(CASE WHEN learn_cpp IS NOT NULL THEN 1 ELSE 0 END) AS cpp_interest,
-AVG(CASE WHEN learn_sql IS NOT NULL THEN 1 ELSE 0 END) AS sql_interest,
-AVG(CASE WHEN learn_html IS NOT NULL THEN 1 ELSE 0 END) AS html_interest,
-AVG(CASE WHEN learn_javascript IS NOT NULL THEN 1 ELSE 0 END) AS js_interest,
-AVG(CASE WHEN learn_java IS NOT NULL THEN 1 ELSE 0 END) AS java_interest
-FROM users JOIN progress ON users.user_id = progress.user_id WHERE email_domain LIKE "%.edu" GROUP BY email_domain ORDER BY email_domain;
+SELECT u.email_domain,
+       COUNT(CASE WHEN p.learn_sql = 'completed' THEN 1 END) AS sql_completed,
+       COUNT(CASE WHEN p.learn_cpp = 'completed' THEN 1 END) AS cpp_completed,
+       COUNT(CASE WHEN p.learn_html = 'completed' THEN 1 END) AS html_completed,
+       COUNT(CASE WHEN p.learn_javascript = 'completed' THEN 1 END) AS js_completed,
+       COUNT(CASE WHEN p.learn_java = 'completed' THEN 1 END) AS java_completed
+FROM users u JOIN progress p ON u.user_id = p.user_id WHERE u.email_domain LIKE '%.edu' GROUP BY u.email_domain ORDER BY u.email_domain;
 
 question 4.B) What courses are the New Yorkers students taking?
   
-SELECT  'New York' AS city,
-COUNT(CASE WHEN learn_cpp IS NOT NULL THEN 1 END) AS cpp_students,
-COUNT(CASE WHEN learn_sql IS NOT NULL THEN 1 END) AS sql_students,
-COUNT(CASE WHEN learn_html IS NOT NULL THEN 1 END) AS html_students,
-COUNT(CASE WHEN learn_javascript IS NOT NULL THEN 1 END) AS js_students,
-COUNT(CASE WHEN learn_java IS NOT NULL THEN 1 END) AS java_students
-FROM users JOIN progress ON users.user_id = progress.user_id WHERE city = 'New York';
+SSELECT
+  COUNT(CASE WHEN p.learn_sql = 'completed' THEN 1 END) AS sql_completed,
+  COUNT(CASE WHEN p.learn_cpp = 'completed' THEN 1 END) AS cpp_completed,
+  COUNT(CASE WHEN p.learn_html = 'completed' THEN 1 END) AS html_completed,
+  COUNT(CASE WHEN p.learn_javascript = 'completed' THEN 1 END) AS js_completed,
+  COUNT(CASE WHEN p.learn_java = 'completed' THEN 1 END) AS java_completed
+FROM users u JOIN progress p ON u.user_id = p.user_id WHERE u.city = 'New York';
 
 question 4.c)  What courses are the Chicago students taking?
 
-SELECT  u.city, 
-       COUNT(CASE WHEN p.learn_cpp = 'completed' THEN 1 END) AS cpp_count,
-       COUNT(CASE WHEN p.learn_sql = 'completed' THEN 1 END) AS sql_count,
-       COUNT(CASE WHEN p.learn_html = 'completed' THEN 1 END) AS html_count,
-       COUNT(CASE WHEN p.learn_javascript = 'completed' THEN 1 END) AS javascript_count,
-       COUNT(CASE WHEN p.learn_java = 'completed' THEN 1 END) AS java_count
-FROM users u JOIN progress p ON u.user_id = p.user_id WHERE LOWER(u.city) = 'chicago' GROUP BY u.city;
-
+SELECT
+  COUNT(CASE WHEN p.learn_sql = 'completed' THEN 1 END) AS sql_completed,
+  COUNT(CASE WHEN p.learn_cpp = 'completed' THEN 1 END) AS cpp_completed,
+  COUNT(CASE WHEN p.learn_html = 'completed' THEN 1 END) AS html_completed,
+  COUNT(CASE WHEN p.learn_javascript = 'completed' THEN 1 END) AS js_completed,
+  COUNT(CASE WHEN p.learn_java = 'completed' THEN 1 END) AS java_completed
+FROM users u JOIN progress p ON u.user_id = p.user_id WHERE u.city = 'Chicago';
 
 =====================================COMPLETED================================================
