@@ -6,7 +6,7 @@ SELECT email_domain, COUNT(*) AS user_count FROM users WHERE email_domain LIKE '
 
 Q. How many .edu learners are located in New York?
  ans.
-SELECT COUNT(*) AS edu_learners_in_new_york FROM users WHERE email_domain LIKE '%.edu' AND postal LIKE 'NY%';
+SELECT COUNT(*) AS edu_learners_in_new_york FROM users WHERE email_domain LIKE '%.edu' AND city = 'New York';
 
 Que. The mobile_app column contains either mobile-user or NULL. How many of these Codecademy learners are using the mobile app?
 ans. mobile_app_user
